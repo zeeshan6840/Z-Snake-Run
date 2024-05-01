@@ -1,0 +1,85 @@
+```
+JavaScript (game.js)*
+```
+// Get the game container
+var gameContainer = document.getElementById("game-container");
+
+// Set the game dimensions
+var gameWidth = 400;
+var gameHeight = 400;
+
+// Set the snake and food positions
+var snakeX = 100;
+var snakeY = 100;
+var foodX = 200;
+var foodY = 200;
+
+// Set the snake direction
+var direction = "right";
+
+// Draw the game
+function drawGame() {
+	// Clear the game container
+	gameContainer.innerHTML = "";
+	
+	// Draw the snake
+	var snakeElement = document.createElement("div");
+	snakeElement.style.position = "absolute";
+	snakeElement.style.top = snakeY + "px";
+	snakeElement.style.left = snakeX + "px";
+	snakeElement.style.width = "10px";
+	snakeElement.style.height = "10px";
+	snakeElement.style.background = "green";
+	gameContainer.appendChild(snakeElement);
+	
+	// Draw the food
+	var foodElement = document.createElement("div");
+	foodElement.style.position = "absolute";
+	foodElement.style.top = foodY + "px";
+	foodElement.style.left = foodX + "px";
+	foodElement.style.width = "10px";
+	foodElement.style.height = "10px";
+	foodElement.style.background = "red";
+	gameContainer.appendChild(foodElement);
+}
+
+// Update the game logic
+function updateGame() {
+	// Move the snake
+	if (direction == "right") {
+		snakeX += 10;
+	} else if (direction == "left") {
+		snakeX -= 10;
+	} else if (direction == "up") {
+		snakeY -= 10;
+	} else if (direction == "down") {
+		snakeY += 10;
+	}
+	
+	// Check for collisions
+	if (snakeX == foodX && snakeY == foodY) {
+		// Eat the food and generate new food
+		foodX = Math.floor(Math.random() * gameWidth / 10) * 10;
+		foodY = Math.floor(Math.random() * gameHeight / 10) * 10;
+	}
+}
+
+// Handle user input
+document.addEventListener("keydown", function(event) {
+	if (event.key == "ArrowUp") {
+		direction = "up";
+	} else if (event.key == "ArrowDown") {
+		direction = "down";
+	} else if (event.key == "ArrowLeft") {
+		direction = "left";
+	} else if (event.key == "ArrowRight") {
+		direction = "right";
+	}
+});
+
+// Main game loop
+setInterval(function() {
+	updateGame();
+	drawGame();
+}, 1000 / 10); // 10 FPS
+```
